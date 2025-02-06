@@ -17,10 +17,11 @@ I have used MySQL Workbench for analysing the data.
 1. How many unique post types are found in the 'fact_content' table?
 
    SELECT COUNT(DISTINCT(post_type)) AS Unique_Post_types
+   
    FROM gdb0120.fact_content;
 
 
-2. What are the highest and lowest recorded impressions for each post type?
+3. What are the highest and lowest recorded impressions for each post type?
 
    SELECT post_type, 
    MAX(impressions) AS Max_Impressions,
@@ -29,7 +30,7 @@ I have used MySQL Workbench for analysing the data.
    GROUP BY post_type;
 
 
-3. Filter all the posts that were published on a weekend in the month of March and April and export them to a separate csv file.
+4. Filter all the posts that were published on a weekend in the month of March and April and export them to a separate csv file.
 
    SELECT c.* FROM gdb0120.fact_content c
    INNER JOIN gdb0120.dim_dates d ON 
@@ -37,7 +38,7 @@ I have used MySQL Workbench for analysing the data.
    WHERE d.month_name IN ('March','April') AND d.weekday_or_weekend = 'weekend';
 
 
-4. Create a report to get the statistics for the account. The final output includes the following fields:
+5. Create a report to get the statistics for the account. The final output includes the following fields:
    • month_name
    • total_profile_visits
    • total_new_followers   
@@ -51,7 +52,7 @@ I have used MySQL Workbench for analysing the data.
    GROUP BY d.month_name;
 
 
-5. Write a CTE that calculates the total number of 'likes’ for each 'post_category' during the month of 'July' and subsequently, arrange the 'post_category' values in descending order 
+6. Write a CTE that calculates the total number of 'likes’ for each 'post_category' during the month of 'July' and subsequently, arrange the 'post_category' values in descending order 
    according to their total likes.
 
    with cte1 as(
@@ -66,7 +67,7 @@ I have used MySQL Workbench for analysing the data.
    ORDER BY cte1.Likes Desc;
 
 
-6. Create a report that displays the unique post_category names alongside their respective counts for each month. The output should have three columns:
+7. Create a report that displays the unique post_category names alongside their respective counts for each month. The output should have three columns:
    • month_name
    • post_category_names
    • post_category_count
@@ -86,7 +87,7 @@ I have used MySQL Workbench for analysing the data.
    ORDER BY post_category_count DESC;
 
 
-7. What is the percentage breakdown of total reach by post type? The final output includes the following fields:
+8. What is the percentage breakdown of total reach by post type? The final output includes the following fields:
   • post_type
   • total_reach
   • reach_percentage
@@ -102,7 +103,7 @@ I have used MySQL Workbench for analysing the data.
    ORDER BY reach_percentage DESC;
 
 
-8. Create a report that includes the quarter, total comments, and total saves recorded for each post category. Assign the following quarter groupings: (January, February, March) → “Q1”
+9. Create a report that includes the quarter, total comments, and total saves recorded for each post category. Assign the following quarter groupings: (January, February, March) → “Q1”
    (April, May, June) → “Q2”
    (July, August, September) → “Q3”
    The final output columns should consist of:
@@ -127,7 +128,7 @@ I have used MySQL Workbench for analysing the data.
    ORDER BY c.post_category, Quarter;
 
 
-9. List the top three dates in each month with the highest number of new followers. The final output should include the following columns:
+10. List the top three dates in each month with the highest number of new followers. The final output should include the following columns:
    • month
    • date
    • new_followers   
@@ -147,7 +148,7 @@ I have used MySQL Workbench for analysing the data.
    ORDER BY cte1.date ASC; 
   
 
-10. Create a stored procedure that takes the 'Week_no' as input and generates a report displaying the total shares for each 'Post_type'. The output of the procedure should consist of 
+11. Create a stored procedure that takes the 'Week_no' as input and generates a report displaying the total shares for each 'Post_type'. The output of the procedure should consist of 
     two columns:
     • post_type
     • total_shares 
