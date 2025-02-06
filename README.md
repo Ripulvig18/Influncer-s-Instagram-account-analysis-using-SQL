@@ -91,15 +91,15 @@ I have used MySQL Workbench for analysing the data.
   • total_reach
   • reach_percentage
 
-  With cte1 as(
-  SELECT post_type, SUM(reach) as total_reach
-  FROM gdb0120.fact_content
-  GROUP BY post_type)
+   With cte1 as(
+   SELECT post_type, SUM(reach) as total_reach
+   FROM gdb0120.fact_content
+   GROUP BY post_type)
 
-  SELECT cte1.*, 
-  ROUND((cte1.total_reach / SUM(cte1.total_reach) OVER()) *100 ,2)as reach_percentage
-  FROM cte1
-  ORDER BY reach_percentage DESC;
+   SELECT cte1.*, 
+   ROUND((cte1.total_reach / SUM(cte1.total_reach) OVER()) *100 ,2)as reach_percentage
+   FROM cte1
+   ORDER BY reach_percentage DESC;
 
 
 8. Create a report that includes the quarter, total comments, and total saves recorded for each post category. Assign the following quarter groupings: (January, February, March) → “Q1”
@@ -153,13 +153,13 @@ I have used MySQL Workbench for analysing the data.
     • total_shares 
 
 
-   CREATE PROCEDURE weekly_post_shares_report(Week_no VARCHAR(255))
-   SELECT c.post_type, SUM(c.shares) as total_shares
-   FROM gdb0120.fact_content c 
-   INNER JOIN gdb0120.dim_dates d ON 
-   c.date = d.date
-   WHERE d.week_no = Week_no
-   GROUP BY c.post_type;
+    CREATE PROCEDURE weekly_post_shares_report(Week_no VARCHAR(255))
+    SELECT c.post_type, SUM(c.shares) as total_shares
+    FROM gdb0120.fact_content c 
+    INNER JOIN gdb0120.dim_dates d ON 
+    c.date = d.date
+    WHERE d.week_no = Week_no
+    GROUP BY c.post_type;
 
-  CALL weekly_post_shares_report("W3");
+   CALL weekly_post_shares_report("W3");
    
