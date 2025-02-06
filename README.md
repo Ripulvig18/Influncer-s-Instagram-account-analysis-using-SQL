@@ -16,9 +16,9 @@ I have used MySQL Workbench for analysing the data.
 
 1. How many unique post types are found in the 'fact_content' table?
 
--  SELECT COUNT(DISTINCT(post_type)) AS Unique_Post_types
+-      SELECT COUNT(DISTINCT(post_type)) AS Unique_Post_types
    
-   FROM gdb0120.fact_content;
+       FROM gdb0120.fact_content;
 
 
 
