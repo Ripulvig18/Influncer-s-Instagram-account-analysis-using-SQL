@@ -17,15 +17,22 @@ I have used MySQL Workbench for analysing the data.
 1. How many unique post types are found in the 'fact_content' table?
 
    SELECT COUNT(DISTINCT(post_type)) AS Unique_Post_types
+   
    FROM gdb0120.fact_content;
+
+
 
 
 2. What are the highest and lowest recorded impressions for each post type?
 
-   SELECT post_type, 
+   SELECT post_type,
+   
    MAX(impressions) AS Max_Impressions,
+   
    MIN(impressions) AS Min_Impressions
+   
    FROM gdb0120.fact_content
+   
    GROUP BY post_type;
 
 
