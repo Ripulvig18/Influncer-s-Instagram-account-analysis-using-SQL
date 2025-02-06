@@ -39,7 +39,7 @@ I have used MySQL Workbench for analysing the data.
 
 3. Filter all the posts that were published on a weekend in the month of March and April and export them to a separate csv file.
 
-   SELECT c.* FROM gdb0120.fact_content c
+-  SELECT c.* FROM gdb0120.fact_content c
    
    INNER JOIN gdb0120.dim_dates d ON
    
@@ -57,7 +57,7 @@ I have used MySQL Workbench for analysing the data.
    • total_new_followers
       
    
-   SELECT d.month_name as Month_Name,
+-  SELECT d.month_name as Month_Name,
    
    SUM(a.profile_visits) AS Total_profile_visits,
    
@@ -76,7 +76,7 @@ I have used MySQL Workbench for analysing the data.
 5. Write a CTE that calculates the total number of 'likes’ for each 'post_category' during the month of 'July' and subsequently, arrange the 'post_category' values in descending order 
    according to their total likes.
 
-   with cte1 as(
+-  with cte1 as(
    
    SELECT c.post_category, SUM(c.likes) AS Likes
    
@@ -111,7 +111,7 @@ I have used MySQL Workbench for analysing the data.
    • 'February', 'Earphone,Laptop,Mobile,Smartwatch', '4'
    
 
-   SELECT d.month_name AS Month_Name,
+-  SELECT d.month_name AS Month_Name,
    
    GROUP_CONCAT(DISTINCT c.post_category) AS post_category_name,
    
@@ -139,7 +139,7 @@ I have used MySQL Workbench for analysing the data.
   • reach_percentage
   
 
-   With cte1 as(
+-  WITH cte1 as(
    
    SELECT post_type, SUM(reach) as total_reach
    
@@ -177,17 +177,17 @@ I have used MySQL Workbench for analysing the data.
    
 
 
-   SELECT c.post_category,
+-  SELECT c.post_category,
    
-   Case
+   CASE
    
-      when d.month_name IN ("January", "February", "March") then "Q1"
+      WHEN d.month_name IN ("January", "February", "March") THEN "Q1"
    
-      when d.month_name IN ("April", "May", "June") then "Q2"
+      WHEN d.month_name IN ("April", "May", "June") THEN "Q2"
    
-      when d.month_name IN ("July", "August", "September") then "Q3"
+      WHEN d.month_name IN ("July", "August", "September") THEN "Q3"
    
-   end as Quarter,
+   END as Quarter,
    
    SUM(c.comments) as total_comments,
    
@@ -214,11 +214,11 @@ I have used MySQL Workbench for analysing the data.
       
 
 
-   with cte1 as(
+ - WITH cte1 as(
    
    SELECT d.month_name, d.date, SUM(a.new_followers) as new_followers,
    
-   Dense_rank() OVER(PARTITION BY d.month_name ORDER BY SUM(a.new_followers) DESC) as Rnk
+   DENSE_RANKk() OVER(PARTITION BY d.month_name ORDER BY SUM(a.new_followers) DESC) as Rnk
    
    FROM gdb0120.fact_account a
    
@@ -249,7 +249,7 @@ I have used MySQL Workbench for analysing the data.
     
 
 
-    CREATE PROCEDURE weekly_post_shares_report(Week_no VARCHAR(255))
+ -  CREATE PROCEDURE weekly_post_shares_report(Week_no VARCHAR(255))
     
     SELECT c.post_type, SUM(c.shares) as total_shares
     
