@@ -57,43 +57,43 @@ I have used MySQL Workbench for analysing the data.
    • total_new_followers
       
    
--  SELECT d.month_name as Month_Name,
+-     SELECT d.month_name as Month_Name,
    
-   SUM(a.profile_visits) AS Total_profile_visits,
+      SUM(a.profile_visits) AS Total_profile_visits,
+    
+      SUM(a.new_followers) as Total_new_followers
    
-   SUM(a.new_followers) as Total_new_followers
+      FROM gdb0120.fact_account a
    
-   FROM gdb0120.fact_account a
+      INNER JOIN gdb0120.dim_dates d
    
-   INNER JOIN gdb0120.dim_dates d
+      ON a.date = d.date
    
-   ON a.date = d.date
-   
-   GROUP BY d.month_name;
+      GROUP BY d.month_name;
    
 
 
 5. Write a CTE that calculates the total number of 'likes’ for each 'post_category' during the month of 'July' and subsequently, arrange the 'post_category' values in descending order 
    according to their total likes.
 
--  WITH cte1 as(
+-     WITH cte1 as(
    
-   SELECT c.post_category, SUM(c.likes) AS Likes
+      SELECT c.post_category, SUM(c.likes) AS Likes
    
-   FROM gdb0120.fact_content c
+      FROM gdb0120.fact_content c
    
-   INNER JOIN gdb0120.dim_dates d
+      INNER JOIN gdb0120.dim_dates d
    
-   ON c.date = d.date
+      ON c.date = d.date
    
-   WHERE d.month_name = "July"
+      WHERE d.month_name = "July"
    
-   GROUP BY c.post_category)
+      GROUP BY c.post_category)
    
 
-   SELECT cte1.* FROM cte1
+      SELECT cte1.* FROM cte1
    
-   ORDER BY cte1.Likes Desc;
+      ORDER BY cte1.Likes Desc;
    
 
 
@@ -111,23 +111,23 @@ I have used MySQL Workbench for analysing the data.
    • 'February', 'Earphone,Laptop,Mobile,Smartwatch', '4'
    
 
--  SELECT d.month_name AS Month_Name,
+-     SELECT d.month_name AS Month_Name,
    
-   GROUP_CONCAT(DISTINCT c.post_category) AS post_category_name,
+      GROUP_CONCAT(DISTINCT c.post_category) AS post_category_name,
    
-   LENGTH(GROUP_CONCAT(DISTINCT c.post_category)) -
+      LENGTH(GROUP_CONCAT(DISTINCT c.post_category)) -
+    
+      LENGTH(REPLACE(GROUP_CONCAT(DISTINCT c.post_category), ",", "")) +1 AS post_category_count
    
-   LENGTH(REPLACE(GROUP_CONCAT(DISTINCT c.post_category), ",", "")) +1 AS post_category_count
+      FROM gdb0120.fact_content c
    
-   FROM gdb0120.fact_content c
+      INNER JOIN gdb0120.dim_dates d ON
    
-   INNER JOIN gdb0120.dim_dates d ON
+      d.date = c.date
    
-   d.date = c.date
+      GROUP BY Month_Name
    
-   GROUP BY Month_Name
-   
-   ORDER BY post_category_count DESC;
+      ORDER BY post_category_count DESC;
    
 
 
@@ -139,22 +139,22 @@ I have used MySQL Workbench for analysing the data.
   • reach_percentage
   
 
--  WITH cte1 as(
+-     WITH cte1 as(
    
-   SELECT post_type, SUM(reach) as total_reach
+      SELECT post_type, SUM(reach) as total_reach
    
-   FROM gdb0120.fact_content
+      FROM gdb0120.fact_content
    
-   GROUP BY post_type)
+      GROUP BY post_type)
    
 
-   SELECT cte1.*,
+      SELECT cte1.*,
    
-   ROUND((cte1.total_reach / SUM(cte1.total_reach) OVER()) *100 ,2)as reach_percentage
+      ROUND((cte1.total_reach / SUM(cte1.total_reach) OVER()) *100 ,2)as reach_percentage
    
-   FROM cte1
+      FROM cte1
    
-   ORDER BY reach_percentage DESC;
+      ORDER BY reach_percentage DESC;
    
 
 
@@ -177,31 +177,31 @@ I have used MySQL Workbench for analysing the data.
    
 
 
--  SELECT c.post_category,
+-     SELECT c.post_category,
    
-   CASE
+      CASE
    
-        WHEN d.month_name IN ("January", "February", "March") THEN "Q1"
+           WHEN d.month_name IN ("January", "February", "March") THEN "Q1"
    
-        WHEN d.month_name IN ("April", "May", "June") THEN "Q2"
+           WHEN d.month_name IN ("April", "May", "June") THEN "Q2"
    
-        WHEN d.month_name IN ("July", "August", "September") THEN "Q3"
+           WHEN d.month_name IN ("July", "August", "September") THEN "Q3"
    
-   END as Quarter,
+      END as Quarter,
    
-   SUM(c.comments) as total_comments,
+      SUM(c.comments) as total_comments,
    
-   SUM(c.saves) as total_saves
+     SUM(c.saves) as total_saves
    
-   FROM gdb0120.fact_content c
+     FROM gdb0120.fact_content c
 
-   INNER JOIN gdb0120.dim_dates d
+     INNER JOIN gdb0120.dim_dates d
    
-   ON c.date = d.date
+     ON c.date = d.date
    
-   GROUP BY c.post_category, Quarter
+     GROUP BY c.post_category, Quarter
    
-   ORDER BY c.post_category, Quarter;
+     ORDER BY c.post_category, Quarter;
    
 
 
@@ -214,28 +214,28 @@ I have used MySQL Workbench for analysing the data.
       
 
 
- - WITH cte1 as(
+ -    WITH cte1 as(
+    
+      SELECT d.month_name, d.date, SUM(a.new_followers) as new_followers,
    
-   SELECT d.month_name, d.date, SUM(a.new_followers) as new_followers,
+      DENSE_RANKk() OVER(PARTITION BY d.month_name ORDER BY SUM(a.new_followers) DESC) as Rnk
    
-   DENSE_RANKk() OVER(PARTITION BY d.month_name ORDER BY SUM(a.new_followers) DESC) as Rnk
+      FROM gdb0120.fact_account a
    
-   FROM gdb0120.fact_account a
+      INNER JOIN gdb0120.dim_dates d
    
-   INNER JOIN gdb0120.dim_dates d
+      ON a.date = d.date
    
-   ON a.date = d.date
-   
-   GROUP BY d.month_name, d.date)
+      GROUP BY d.month_name, d.date)
    
 
-   SELECT cte1.month_name, cte1.date, cte1.new_followers
+      SELECT cte1.month_name, cte1.date, cte1.new_followers
    
-   FROM cte1
+      FROM cte1
     
-   WHERE Rnk <= 3
+      WHERE Rnk <= 3
    
-   ORDER BY cte1.date ASC;
+      ORDER BY cte1.date ASC;
    
   
 
@@ -249,21 +249,21 @@ I have used MySQL Workbench for analysing the data.
     
 
 
- -  CREATE PROCEDURE weekly_post_shares_report(Week_no VARCHAR(255))
+ -     CREATE PROCEDURE weekly_post_shares_report(Week_no VARCHAR(255))
     
-    SELECT c.post_type, SUM(c.shares) as total_shares
+       SELECT c.post_type, SUM(c.shares) as total_shares
     
-    FROM gdb0120.fact_content c
+       FROM gdb0120.fact_content c
     
-    INNER JOIN gdb0120.dim_dates d ON
+       INNER JOIN gdb0120.dim_dates d ON
     
-    c.date = d.date
+       c.date = d.date
     
-    WHERE d.week_no = Week_no
+       WHERE d.week_no = Week_no
     
-    GROUP BY c.post_type;
+       GROUP BY c.post_type;
     
 
-    CALL weekly_post_shares_report("W3");
+       CALL weekly_post_shares_report("W3");
     
    
