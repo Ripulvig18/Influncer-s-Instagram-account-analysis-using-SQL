@@ -1,4 +1,4 @@
-# Influncer's-Instagram-account-analysis-using-SQL
+# Influencer's-Instagram-account-analysis-using-SQL
 
 # Problem Statement:
 
