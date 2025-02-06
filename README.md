@@ -191,17 +191,17 @@ I have used MySQL Workbench for analysing the data.
    
       SUM(c.comments) as total_comments,
    
-     SUM(c.saves) as total_saves
+      SUM(c.saves) as total_saves
    
-     FROM gdb0120.fact_content c
+      FROM gdb0120.fact_content c
 
-     INNER JOIN gdb0120.dim_dates d
+      INNER JOIN gdb0120.dim_dates d
    
-     ON c.date = d.date
+      ON c.date = d.date
    
-     GROUP BY c.post_category, Quarter
+      GROUP BY c.post_category, Quarter
    
-     ORDER BY c.post_category, Quarter;
+      ORDER BY c.post_category, Quarter;
    
 
 
@@ -214,28 +214,28 @@ I have used MySQL Workbench for analysing the data.
       
 
 
- -    WITH cte1 as(
+ -     WITH cte1 as(
     
-      SELECT d.month_name, d.date, SUM(a.new_followers) as new_followers,
+       SELECT d.month_name, d.date, SUM(a.new_followers) as new_followers,
    
-      DENSE_RANKk() OVER(PARTITION BY d.month_name ORDER BY SUM(a.new_followers) DESC) as Rnk
+       DENSE_RANKk() OVER(PARTITION BY d.month_name ORDER BY SUM(a.new_followers) DESC) as Rnk
    
-      FROM gdb0120.fact_account a
+       FROM gdb0120.fact_account a
    
-      INNER JOIN gdb0120.dim_dates d
+       INNER JOIN gdb0120.dim_dates d
    
-      ON a.date = d.date
+       ON a.date = d.date
    
-      GROUP BY d.month_name, d.date)
+       GROUP BY d.month_name, d.date)
    
 
-      SELECT cte1.month_name, cte1.date, cte1.new_followers
+       SELECT cte1.month_name, cte1.date, cte1.new_followers
    
-      FROM cte1
+       FROM cte1
     
-      WHERE Rnk <= 3
+       WHERE Rnk <= 3
    
-      ORDER BY cte1.date ASC;
+       ORDER BY cte1.date ASC;
    
   
 
