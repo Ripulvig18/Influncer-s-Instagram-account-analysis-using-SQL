@@ -25,27 +25,27 @@ I have used MySQL Workbench for analysing the data.
 
 2. What are the highest and lowest recorded impressions for each post type?
 
--  SELECT post_type,
+-      SELECT post_type,
    
-   MAX(impressions) AS Max_Impressions,
+       MAX(impressions) AS Max_Impressions,
    
-   MIN(impressions) AS Min_Impressions
+       MIN(impressions) AS Min_Impressions
    
-   FROM gdb0120.fact_content
+       FROM gdb0120.fact_content
    
-   GROUP BY post_type;
+       GROUP BY post_type;
 
 
 
 3. Filter all the posts that were published on a weekend in the month of March and April and export them to a separate csv file.
 
--  SELECT c.* FROM gdb0120.fact_content c
+-     SELECT c.* FROM gdb0120.fact_content c
    
-   INNER JOIN gdb0120.dim_dates d ON
+      INNER JOIN gdb0120.dim_dates d ON
    
-   d.date = c.date
+      d.date = c.date
    
-   WHERE d.month_name IN ('March','April') AND d.weekday_or_weekend = 'weekend';
+      WHERE d.month_name IN ('March','April') AND d.weekday_or_weekend = 'weekend';
    
 
 
