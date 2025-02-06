@@ -76,7 +76,7 @@ I have used MySQL Workbench for analysing the data.
 5. Write a CTE that calculates the total number of 'likes’ for each 'post_category' during the month of 'July' and subsequently, arrange the 'post_category' values in descending order 
    according to their total likes.
 
--  with cte1 as(
+-  WITH cte1 as(
    
    SELECT c.post_category, SUM(c.likes) AS Likes
    
@@ -181,11 +181,11 @@ I have used MySQL Workbench for analysing the data.
    
    CASE
    
-      WHEN d.month_name IN ("January", "February", "March") THEN "Q1"
+        WHEN d.month_name IN ("January", "February", "March") THEN "Q1"
    
-      WHEN d.month_name IN ("April", "May", "June") THEN "Q2"
+        WHEN d.month_name IN ("April", "May", "June") THEN "Q2"
    
-      WHEN d.month_name IN ("July", "August", "September") THEN "Q3"
+        WHEN d.month_name IN ("July", "August", "September") THEN "Q3"
    
    END as Quarter,
    
