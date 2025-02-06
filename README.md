@@ -14,7 +14,7 @@ I have used MySQL Workbench for analysing the data.
 
 # Business Questions to address:
 
-# 1. How many unique post types are found in the 'fact_content' table?
+1. How many unique post types are found in the 'fact_content' table?
 
    SELECT COUNT(DISTINCT(post_type)) AS Unique_Post_types
    
