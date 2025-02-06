@@ -14,7 +14,7 @@ I have used MySQL Workbench for analysing the data.
 
 # Business Questions to address:
 
-1. How many unique post types are found in the 'fact_content' table?
+# 1. How many unique post types are found in the 'fact_content' table?
 
    SELECT COUNT(DISTINCT(post_type)) AS Unique_Post_types
    
@@ -51,8 +51,11 @@ I have used MySQL Workbench for analysing the data.
 
 4. Create a report to get the statistics for the account. The final output includes the following fields:
    • month_name
+   
    • total_profile_visits
-   • total_new_followers   
+   
+   • total_new_followers
+      
    
    SELECT d.month_name as Month_Name,
    
@@ -96,10 +99,15 @@ I have used MySQL Workbench for analysing the data.
 
 6. Create a report that displays the unique post_category names alongside their respective counts for each month. The output should have three columns:
    • month_name
+   
    • post_category_names
+   
    • post_category_count
+
    Example:
+   
    • 'April', 'Earphone,Laptop,Mobile,Other Gadgets,Smartwatch', '5'
+   
    • 'February', 'Earphone,Laptop,Mobile,Smartwatch', '4'
    
 
@@ -125,8 +133,11 @@ I have used MySQL Workbench for analysing the data.
 
 7. What is the percentage breakdown of total reach by post type? The final output includes the following fields:
   • post_type
+
   • total_reach
+  
   • reach_percentage
+  
 
    With cte1 as(
    
@@ -147,14 +158,23 @@ I have used MySQL Workbench for analysing the data.
    
 
 
-8. Create a report that includes the quarter, total comments, and total saves recorded for each post category. Assign the following quarter groupings: (January, February, March) → “Q1”
+8. Create a report that includes the quarter, total comments, and total saves recorded for each post category. Assign the following quarter groupings:
+   (January, February, March) → “Q1”
+   
    (April, May, June) → “Q2”
+   
    (July, August, September) → “Q3”
+   
    The final output columns should consist of:
+   
    • post_category
+   
    • quarter
+   
    • total_comments
+   
    • total_saves
+   
 
 
    SELECT c.post_category,
@@ -187,8 +207,11 @@ I have used MySQL Workbench for analysing the data.
 
 9. List the top three dates in each month with the highest number of new followers. The final output should include the following columns:
    • month
+   
    • date
-   • new_followers   
+   
+   • new_followers
+      
 
 
    with cte1 as(
@@ -216,10 +239,14 @@ I have used MySQL Workbench for analysing the data.
    
   
 
-10. Create a stored procedure that takes the 'Week_no' as input and generates a report displaying the total shares for each 'Post_type'. The output of the procedure should consist of 
-    two columns:
+10. Create a stored procedure that takes the 'Week_no' as input and generates a report displaying the total shares for each 'Post_type'.
+
+    The output of the procedure should consist of two columns:
+    
     • post_type
-    • total_shares 
+    
+    • total_shares
+    
 
 
     CREATE PROCEDURE weekly_post_shares_report(Week_no VARCHAR(255))
