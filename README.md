@@ -161,5 +161,5 @@ I have used MySQL Workbench for analysing the data.
     WHERE d.week_no = Week_no
     GROUP BY c.post_type;
 
-   CALL weekly_post_shares_report("W3");
+    CALL weekly_post_shares_report("W3");
    
